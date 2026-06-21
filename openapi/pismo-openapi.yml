@@ -1,0 +1,850 @@
+openapi: 3.0.1
+info:
+  title: Pismo API
+  description: >-
+    Specification of the Pismo cloud-native issuer-processing and core-banking
+    platform API. Covers accounts, customers, cards, authorizations,
+    transactions and statements, programs, and event/webhook configuration.
+    Pismo is a Visa-owned platform (acquired January 2024). Authentication uses
+    OAuth2 client-credentials to obtain a Bearer access token; account-scoped
+    endpoints additionally require an account-specific token that encodes a
+    Pismo account ID.
+  termsOfService: https://www.pismo.io
+  contact:
+    name: Pismo Developer Support
+    url: https://developers.pismo.io
+  version: '1.0'
+servers:
+  - url: https://api.pismo.io
+    description: Production
+  - url: https://sandbox.pismolabs.io
+    description: Sandbox
+security:
+  - bearerAuth: []
+tags:
+  - name: Accounts
+    description: Core-banking account lifecycle and balances.
+  - name: Customers
+    description: Customer registration and customer-account relationships.
+  - name: Cards
+    description: Card issuing and lifecycle.
+  - name: Authorizations
+    description: Card-network authorizations and simulation.
+  - name: Transactions
+    description: Posted transactions and transaction shifts.
+  - name: Statements
+    description: Account statements and statement transactions.
+  - name: Programs
+    description: Product program configuration.
+  - name: Events
+    description: Client webhook registration for the Pismo event stream.
+paths:
+  /accounts/v1/accounts:
+    post:
+      operationId: createAccount
+      tags:
+        - Accounts
+      summary: Create account
+      description: Creates a core-banking account bound to a customer and a program.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        '201':
+          description: Account created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /accounts/v1/accounts/{accountId}:
+    get:
+      operationId: getAccount
+      tags:
+        - Accounts
+      summary: Get account
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Account found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateAccount
+      tags:
+        - Accounts
+      summary: Update account
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          description: Account updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+  /accounts/v1/accounts/{accountId}/status:
+    patch:
+      operationId: updateAccountStatus
+      tags:
+        - Accounts
+      summary: Update account status
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountStatusUpdate'
+      responses:
+        '200':
+          description: Status updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+  /accounts/v1/accounts/{accountId}/entity:
+    patch:
+      operationId: transferAccountOwnership
+      tags:
+        - Accounts
+      summary: Transfer account ownership
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                  format: int64
+      responses:
+        '200':
+          description: Ownership transferred.
+  /accounts/v1/account-balances:
+    get:
+      operationId: getAccountBalance
+      tags:
+        - Accounts
+      summary: Get account balance
+      parameters:
+        - name: account_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Current balance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalance'
+  /customers/v1/customers:
+    post:
+      operationId: createCustomer
+      tags:
+        - Customers
+      summary: Create customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerRequest'
+      responses:
+        '201':
+          description: Customer created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /customers/v1/customers/{customerId}:
+    get:
+      operationId: getCustomer
+      tags:
+        - Customers
+      summary: Get customer
+      parameters:
+        - $ref: '#/components/parameters/CustomerId'
+      responses:
+        '200':
+          description: Customer found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wallet/v2/cards:
+    post:
+      operationId: createCard
+      tags:
+        - Cards
+      summary: Create card
+      description: Issues a physical or virtual card for an account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardRequest'
+      responses:
+        '201':
+          description: Card created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+  /wallet/v1/cards/{cardId}:
+    get:
+      operationId: getCard
+      tags:
+        - Cards
+      summary: Get card
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      responses:
+        '200':
+          description: Card found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wallet/v1/customers/{customerId}/accounts/{accountId}/cards:
+    get:
+      operationId: listCardsForCustomerAccount
+      tags:
+        - Cards
+      summary: List cards for customer and account
+      parameters:
+        - $ref: '#/components/parameters/CustomerId'
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: List of cards.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+  /accounts/v1/accounts/{accountId}/authorizations:
+    get:
+      operationId: listAccountAuthorizations
+      tags:
+        - Authorizations
+      summary: List account authorizations
+      description: >-
+        Requires an account-specific token (an access token encoded with the
+        Pismo account ID).
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: List of authorizations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Authorization'
+  /accounts/v1/accounts/{accountId}/authorizations/{authorizationId}:
+    get:
+      operationId: getAccountAuthorization
+      tags:
+        - Authorizations
+      summary: Get account authorization
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - name: authorizationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authorization found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+  /authorizations/v1/simulate-authorizations:
+    post:
+      operationId: simulateAuthorization
+      tags:
+        - Authorizations
+      summary: Simulate authorization
+      description: Walk through authorization scenarios against a sandbox account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulateAuthorizationRequest'
+      responses:
+        '200':
+          description: Simulation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+  /transactions/v1/transactions/{transactionId}:
+    get:
+      operationId: getTransactionById
+      tags:
+        - Transactions
+      summary: Get transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transaction found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /statements/v1/accounts/{accountId}/next:
+    get:
+      operationId: getCurrentStatement
+      tags:
+        - Statements
+      summary: Get current statement
+      description: >-
+        Returns the open (next) statement for the account. Requires an
+        account-specific token.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Current statement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statement'
+  /statements/v1/accounts/{accountId}/statements/{statementId}:
+    get:
+      operationId: getStatement
+      tags:
+        - Statements
+      summary: Get statement
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/StatementId'
+      responses:
+        '200':
+          description: Statement found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statement'
+  /accounts/v2/accounts/{accountId}/statements/{statementId}/transactions:
+    get:
+      operationId: getStatementTransactions
+      tags:
+        - Statements
+      summary: Get statement transactions
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/StatementId'
+      responses:
+        '200':
+          description: Transactions in the statement.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+  /programs/v1/programs:
+    post:
+      operationId: createProgram
+      tags:
+        - Programs
+      summary: Create program
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProgramRequest'
+      responses:
+        '201':
+          description: Program created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Program'
+  /programs/v1/programs/{programId}:
+    get:
+      operationId: getProgram
+      tags:
+        - Programs
+      summary: Get program
+      parameters:
+        - name: programId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Program found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Program'
+  /webhooks/v1/webhooks:
+    post:
+      operationId: createWebhook
+      tags:
+        - Events
+      summary: Register client webhook
+      description: >-
+        Registers a client webhook endpoint to receive events from the Pismo
+        Kafka-backed event stream.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+      responses:
+        '201':
+          description: Webhook registered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+    get:
+      operationId: listWebhooks
+      tags:
+        - Events
+      summary: List client webhooks
+      responses:
+        '200':
+          description: List of webhooks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth2 client-credentials access token obtained from
+        POST /passport/v2/oauth/token. Pass as
+        `Authorization: Bearer <token>`. Account-scoped endpoints require an
+        account-specific token encoded with a Pismo account ID.
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+          scopes: {}
+  parameters:
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CustomerId:
+      name: customerId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CardId:
+      name: cardId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    StatementId:
+      name: statementId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+    CreateAccountRequest:
+      type: object
+      required:
+        - customer_id
+        - program_id
+      properties:
+        customer_id:
+          type: integer
+          format: int64
+        program_id:
+          type: integer
+          format: int64
+        processing_code:
+          type: string
+        currency:
+          type: string
+          example: USD
+    UpdateAccountRequest:
+      type: object
+      properties:
+        program_id:
+          type: integer
+          format: int64
+        metadata:
+          type: object
+          additionalProperties: true
+    AccountStatusUpdate:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - NORMAL
+            - BLOCKED
+            - CANCELLED
+            - CLOSED
+        reason:
+          type: string
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customer_id:
+          type: integer
+          format: int64
+        program_id:
+          type: integer
+          format: int64
+        status:
+          type: string
+        currency:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    AccountBalance:
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        available_amount:
+          type: number
+          format: double
+        current_amount:
+          type: number
+          format: double
+        currency:
+          type: string
+    CreateCustomerRequest:
+      type: object
+      required:
+        - name
+        - document_number
+      properties:
+        name:
+          type: string
+        document_number:
+          type: string
+        type:
+          type: string
+          enum:
+            - PERSON
+            - LEGAL_ENTITY
+        birth_date:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        document_number:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    CreateCardRequest:
+      type: object
+      required:
+        - account_id
+        - type
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        customer_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+            - PHYSICAL
+            - VIRTUAL
+        printed_name:
+          type: string
+        program_id:
+          type: integer
+          format: int64
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        status:
+          type: string
+        printed_name:
+          type: string
+        last_four_digits:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Authorization:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+            - APPROVED
+            - DENIED
+            - REVERSED
+        merchant_name:
+          type: string
+        mcc:
+          type: string
+        event_date:
+          type: string
+          format: date-time
+    SimulateAuthorizationRequest:
+      type: object
+      required:
+        - account_id
+        - amount
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        mcc:
+          type: string
+        merchant_name:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        soft_descriptor:
+          type: string
+        event_date:
+          type: string
+          format: date-time
+    Statement:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account_id:
+          type: integer
+          format: int64
+        status:
+          type: string
+        due_date:
+          type: string
+          format: date
+        close_date:
+          type: string
+          format: date
+        total_balance:
+          type: number
+          format: double
+        minimum_payment:
+          type: number
+          format: double
+    CreateProgramRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+          enum:
+            - CREDIT
+            - DEBIT
+            - PREPAID
+    Program:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        currency:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    CreateWebhookRequest:
+      type: object
+      required:
+        - url
+        - event_types
+      properties:
+        url:
+          type: string
+          format: uri
+        event_types:
+          type: array
+          items:
+            type: string
+          example:
+            - account-created
+            - authorization-event
+            - statement-closed
+        description:
+          type: string
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        event_types:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time

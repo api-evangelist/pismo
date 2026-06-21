@@ -1,0 +1,111 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Pismo
+providerId: pismo
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Banking
+- Card Issuing
+- Payments
+- Fintech
+- Core Banking
+- Cloud Native
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Pismo platform spend. Pismo bills B2B clients through a
+  sales-led commercial agreement that typically blends platform / setup fees
+  with usage-based processing fees - per active account, per active card, per
+  authorization / transaction, and per event volume. Pismo does not publish
+  public rate cards, so meter rates here are structural and unreconciled.
+notes: >-
+  No public pricing is published; figures must be reconciled against a signed
+  Pismo / Visa agreement. Meters model the typical cost drivers of an
+  issuer-processing / core-banking platform.
+sources:
+- https://www.pismo.io
+- https://developers.pismo.io
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Pismo
+serviceCategory: Financial Services Platform
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Pismo Platform
+  ServiceCategory: Financial Services Platform
+  ProviderName: Pismo
+  PublisherName: Pismo
+  InvoiceIssuerName: Pismo
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: active_accounts
+  description: Core-banking accounts active in the billing period, billed per account per negotiated rate.
+  unit: accounts
+  aggregation: sum
+  dimensions:
+  - client
+  - program
+- name: active_cards
+  description: Physical and virtual cards active in the billing period, billed per card.
+  unit: cards
+  aggregation: sum
+  dimensions:
+  - client
+  - program
+- name: authorizations
+  description: Card-network authorizations processed, billed per authorization.
+  unit: authorizations
+  aggregation: sum
+  dimensions:
+  - client
+  - program
+- name: transactions
+  description: Posted transactions processed, billed per transaction.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - client
+  - program
+- name: events
+  description: Platform events emitted from the Kafka-backed stream and delivered to client sinks.
+  unit: events
+  aggregation: sum
+  dimensions:
+  - client
+  - event_type
+- name: platform_fee
+  description: Fixed platform / setup fee per the commercial agreement.
+  unit: contracts
+  aggregation: sum
+  dimensions:
+  - client
+principles:
+- name: Visibility
+  description: Pull Pismo usage exports and platform event volumes; inspect per-program account, card, and transaction counts.
+- name: Allocation
+  description: Tag accounts and cards by program and internal product line; map to cost centers.
+- name: Optimization
+  description: Retire inactive accounts and cards; tune event subscriptions to needed event types to control event volume.
+- name: Accountability
+  description: Assign owners per program; reconcile monthly usage against the negotiated Pismo / Visa agreement.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

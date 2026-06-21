@@ -1,0 +1,180 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pismo API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create account", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pismo.io/accounts/v1/accounts",
+            "body": { "type": "json", "data": "{\n  \"customer_id\": 0,\n  \"program_id\": 0,\n  \"currency\": \"USD\"\n}" }
+          },
+          "docs": "Create a core-banking account."
+        },
+        {
+          "info": { "name": "Get account", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/accounts/v1/accounts/{{accountId}}" },
+          "docs": "Get account by ID."
+        },
+        {
+          "info": { "name": "Update account", "type": "http" },
+          "http": { "method": "PATCH", "url": "https://api.pismo.io/accounts/v1/accounts/{{accountId}}", "body": { "type": "json", "data": "{}" } },
+          "docs": "Update account."
+        },
+        {
+          "info": { "name": "Update account status", "type": "http" },
+          "http": { "method": "PATCH", "url": "https://api.pismo.io/accounts/v1/accounts/{{accountId}}/status", "body": { "type": "json", "data": "{\n  \"status\": \"BLOCKED\"\n}" } },
+          "docs": "Update account status."
+        },
+        {
+          "info": { "name": "Get account balance", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/accounts/v1/account-balances?account_id={{accountId}}" },
+          "docs": "Get account balance."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create customer", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.pismo.io/customers/v1/customers", "body": { "type": "json", "data": "{\n  \"name\": \"\",\n  \"document_number\": \"\",\n  \"type\": \"PERSON\"\n}" } },
+          "docs": "Create a customer."
+        },
+        {
+          "info": { "name": "Get customer", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/customers/v1/customers/{{customerId}}" },
+          "docs": "Get customer by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Cards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create card", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.pismo.io/wallet/v2/cards", "body": { "type": "json", "data": "{\n  \"account_id\": 0,\n  \"type\": \"VIRTUAL\"\n}" } },
+          "docs": "Issue a card."
+        },
+        {
+          "info": { "name": "Get card", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/wallet/v1/cards/{{cardId}}" },
+          "docs": "Get card by ID."
+        },
+        {
+          "info": { "name": "List cards for customer and account", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/wallet/v1/customers/{{customerId}}/accounts/{{accountId}}/cards" },
+          "docs": "List cards for a customer and account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authorizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List account authorizations", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/accounts/v1/accounts/{{accountId}}/authorizations" },
+          "docs": "List authorizations for an account (account token required)."
+        },
+        {
+          "info": { "name": "Get account authorization", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/accounts/v1/accounts/{{accountId}}/authorizations/{{authorizationId}}" },
+          "docs": "Get a single authorization."
+        },
+        {
+          "info": { "name": "Simulate authorization", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.pismo.io/authorizations/v1/simulate-authorizations", "body": { "type": "json", "data": "{\n  \"account_id\": 0,\n  \"amount\": 0\n}" } },
+          "docs": "Simulate an authorization scenario."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions and Statements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Get transaction", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/transactions/v1/transactions/{{transactionId}}" },
+          "docs": "Get a transaction by ID."
+        },
+        {
+          "info": { "name": "Get current statement", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/statements/v1/accounts/{{accountId}}/next" },
+          "docs": "Get the open statement for an account."
+        },
+        {
+          "info": { "name": "Get statement", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/statements/v1/accounts/{{accountId}}/statements/{{statementId}}" },
+          "docs": "Get a statement by ID."
+        },
+        {
+          "info": { "name": "Get statement transactions", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/accounts/v2/accounts/{{accountId}}/statements/{{statementId}}/transactions" },
+          "docs": "List transactions within a statement."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Programs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create program", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.pismo.io/programs/v1/programs", "body": { "type": "json", "data": "{\n  \"name\": \"\",\n  \"type\": \"CREDIT\"\n}" } },
+          "docs": "Create a program."
+        },
+        {
+          "info": { "name": "Get program", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/programs/v1/programs/{{programId}}" },
+          "docs": "Get a program by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Register client webhook", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.pismo.io/webhooks/v1/webhooks", "body": { "type": "json", "data": "{\n  \"url\": \"\",\n  \"event_types\": []\n}" } },
+          "docs": "Register a client webhook for the Pismo event stream."
+        },
+        {
+          "info": { "name": "List client webhooks", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.pismo.io/webhooks/v1/webhooks" },
+          "docs": "List registered client webhooks."
+        }
+      ]
+    }
+  ]
+}

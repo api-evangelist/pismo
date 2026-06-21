@@ -1,0 +1,198 @@
+aid: pismo
+url: https://raw.githubusercontent.com/api-evangelist/pismo/refs/heads/main/apis.yml
+name: Pismo
+kind: company
+description: Pismo is a cloud-native issuer-processing and core-banking platform exposing
+  REST APIs for accounts, customers, cards, authorizations, transactions, statements,
+  and programs, plus an event stream (Kafka-backed, delivered via webhooks and cloud
+  event buses). Acquired by Visa in January 2024, Pismo powers card issuing and
+  digital banking for financial institutions across the Americas, Europe, and APAC.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Banking
+- Card Issuing
+- Payments
+- Fintech
+- Core Banking
+- Cloud Native
+created: '2026-06-21'
+modified: '2026-06-21'
+specificationVersion: '0.19'
+apis:
+- aid: pismo:pismo-accounts-api
+  name: Pismo Accounts API
+  tags:
+  - Accounts
+  - Core Banking
+  - Balances
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/reference
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/setup-overview
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Create and manage core-banking accounts, account status lifecycle,
+    ownership transfer, and account balances and balance history under the
+    /accounts/v1 path family.
+- aid: pismo:pismo-customers-api
+  name: Pismo Customers API
+  tags:
+  - Customers
+  - Onboarding
+  - KYC
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/reference
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/setup-overview
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Register and manage customers (individual and legal entities), their
+    documents and contact details, and the customer-to-account relationships that
+    anchor cards and balances.
+- aid: pismo:pismo-cards-api
+  name: Pismo Cards API
+  tags:
+  - Cards
+  - Issuing
+  - Tokenization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/docs/cards-overview-1
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/cards-overview-1
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Issue and manage physical and virtual cards across the /wallet card
+    path family - create cards, retrieve card details, manage card status and
+    lifecycle, and drive network tokenization flows.
+- aid: pismo:pismo-authorizations-api
+  name: Pismo Authorizations API
+  tags:
+  - Authorizations
+  - Real Time
+  - Network Transactions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/docs/simulate-authorizations
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/simulate-authorizations
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: List and inspect card-network authorizations for an account, query
+    direct-network transactions, and simulate authorization scenarios for
+    integration testing.
+- aid: pismo:pismo-transactions-statements-api
+  name: Pismo Transactions and Statements API
+  tags:
+  - Transactions
+  - Statements
+  - Billing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/docs/understanding-statements
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/understanding-statements
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference/gettransactionbyid
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Retrieve posted transactions, transaction details, current and
+    historical statements, statement transactions, and transaction shift
+    operations under the /statements and /accounts statement path families.
+- aid: pismo:pismo-programs-api
+  name: Pismo Programs API
+  tags:
+  - Programs
+  - Configuration
+  - Product Setup
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/docs/main-solutions
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/main-solutions
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Create and configure programs - the product templates that bind
+    card products, account types, fees, and rules - including program creation,
+    retrieval, and cloning.
+- aid: pismo:pismo-events-api
+  name: Pismo Events API
+  tags:
+  - Events
+  - Webhooks
+  - Kafka
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.pismo.io/pismo-docs/docs/client-webhooks
+  baseURL: https://api.pismo.io
+  properties:
+  - url: https://developers.pismo.io/pismo-docs/docs/client-webhooks
+    type: Documentation
+  - url: https://developers.pismo.io/pismo-docs/reference
+    type: APIReference
+  - url: openapi/pismo-openapi.yml
+    type: OpenAPI
+  - url: collections/pismo.postman_collection.json
+    type: PostmanCollection
+  - url: collections/pismo.opencollection.json
+    type: OpenCollection
+  description: Subscribe to and manage platform events emitted from Pismo's
+    Kafka-backed event stream - register client webhooks and configure real-time
+    delivery (AWS SNS / EventBridge, Azure, GCP) or batch file delivery (SFTP, S3).
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/pismo
+- type: Website
+  url: https://www.pismo.io
+- type: Documentation
+  url: https://developers.pismo.io
+- type: Plans
+  url: plans/pismo-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/pismo-rate-limits.yml
+- type: FinOps
+  url: finops/pismo-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

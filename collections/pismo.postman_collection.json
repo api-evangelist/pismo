@@ -1,0 +1,246 @@
+{
+  "info": {
+    "name": "Pismo API",
+    "description": "Pismo cloud-native issuer-processing and core-banking platform API (Visa-owned). REST over https://api.pismo.io; OAuth2 client-credentials Bearer auth, with account-specific tokens for account-scoped endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{bearerToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.pismo.io" },
+    { "key": "accountId", "value": "" },
+    { "key": "customerId", "value": "" },
+    { "key": "cardId", "value": "" },
+    { "key": "authorizationId", "value": "" },
+    { "key": "transactionId", "value": "" },
+    { "key": "statementId", "value": "" },
+    { "key": "programId", "value": "" },
+    { "key": "bearerToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Create account",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"customer_id\": 0,\n  \"program_id\": 0,\n  \"currency\": \"USD\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts"] }
+          }
+        },
+        {
+          "name": "Get account",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}"] }
+          }
+        },
+        {
+          "name": "Update account",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}"] }
+          }
+        },
+        {
+          "name": "Update account status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"BLOCKED\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}/status", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}", "status"] }
+          }
+        },
+        {
+          "name": "Transfer account ownership",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"customer_id\": 0\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}/entity", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}", "entity"] }
+          }
+        },
+        {
+          "name": "Get account balance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/v1/account-balances?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "account-balances"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"\",\n  \"document_number\": \"\",\n  \"type\": \"PERSON\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/customers/v1/customers", "host": ["{{baseUrl}}"], "path": ["customers", "v1", "customers"] }
+          }
+        },
+        {
+          "name": "Get customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/v1/customers/{{customerId}}", "host": ["{{baseUrl}}"], "path": ["customers", "v1", "customers", "{{customerId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "Create card",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": 0,\n  \"type\": \"VIRTUAL\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/wallet/v2/cards", "host": ["{{baseUrl}}"], "path": ["wallet", "v2", "cards"] }
+          }
+        },
+        {
+          "name": "Get card",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/wallet/v1/cards/{{cardId}}", "host": ["{{baseUrl}}"], "path": ["wallet", "v1", "cards", "{{cardId}}"] }
+          }
+        },
+        {
+          "name": "List cards for customer and account",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/wallet/v1/customers/{{customerId}}/accounts/{{accountId}}/cards", "host": ["{{baseUrl}}"], "path": ["wallet", "v1", "customers", "{{customerId}}", "accounts", "{{accountId}}", "cards"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authorizations",
+      "item": [
+        {
+          "name": "List account authorizations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}/authorizations", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}", "authorizations"] }
+          }
+        },
+        {
+          "name": "Get account authorization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/v1/accounts/{{accountId}}/authorizations/{{authorizationId}}", "host": ["{{baseUrl}}"], "path": ["accounts", "v1", "accounts", "{{accountId}}", "authorizations", "{{authorizationId}}"] }
+          }
+        },
+        {
+          "name": "Simulate authorization",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": 0,\n  \"amount\": 0\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/authorizations/v1/simulate-authorizations", "host": ["{{baseUrl}}"], "path": ["authorizations", "v1", "simulate-authorizations"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions and Statements",
+      "item": [
+        {
+          "name": "Get transaction",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/transactions/v1/transactions/{{transactionId}}", "host": ["{{baseUrl}}"], "path": ["transactions", "v1", "transactions", "{{transactionId}}"] }
+          }
+        },
+        {
+          "name": "Get current statement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/statements/v1/accounts/{{accountId}}/next", "host": ["{{baseUrl}}"], "path": ["statements", "v1", "accounts", "{{accountId}}", "next"] }
+          }
+        },
+        {
+          "name": "Get statement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/statements/v1/accounts/{{accountId}}/statements/{{statementId}}", "host": ["{{baseUrl}}"], "path": ["statements", "v1", "accounts", "{{accountId}}", "statements", "{{statementId}}"] }
+          }
+        },
+        {
+          "name": "Get statement transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/v2/accounts/{{accountId}}/statements/{{statementId}}/transactions", "host": ["{{baseUrl}}"], "path": ["accounts", "v2", "accounts", "{{accountId}}", "statements", "{{statementId}}", "transactions"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Programs",
+      "item": [
+        {
+          "name": "Create program",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"\",\n  \"type\": \"CREDIT\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/programs/v1/programs", "host": ["{{baseUrl}}"], "path": ["programs", "v1", "programs"] }
+          }
+        },
+        {
+          "name": "Get program",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/programs/v1/programs/{{programId}}", "host": ["{{baseUrl}}"], "path": ["programs", "v1", "programs", "{{programId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Register client webhook",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"\",\n  \"event_types\": []\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/webhooks/v1/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks", "v1", "webhooks"] }
+          }
+        },
+        {
+          "name": "List client webhooks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhooks/v1/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks", "v1", "webhooks"] }
+          }
+        }
+      ]
+    }
+  ]
+}

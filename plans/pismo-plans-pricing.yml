@@ -1,0 +1,100 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Pismo
+providerId: pismo
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Banking
+- Card Issuing
+- Payments
+- Fintech
+- Core Banking
+- Cloud Native
+- Plans
+description: >-
+  Pismo is a B2B issuer-processing and core-banking platform sold through a
+  sales-led, partner-negotiated model. Pricing is not publicly published;
+  commercial terms are agreed per client and typically combine platform /
+  setup fees with usage-based processing fees (per account, per active card,
+  per transaction / authorization, and per event). Specific rates are not
+  documented publicly and are not reconciled in this artifact.
+notes: >-
+  All entries below are structural placeholders for a sales-led pricing model.
+  No public price points are published by Pismo; reconcile against a signed
+  commercial agreement or direct quote from Pismo / Visa.
+sources:
+- https://www.pismo.io
+- https://developers.pismo.io
+plans:
+- id: pismo-platform
+  name: Platform Agreement
+  type: enterprise
+  description: >-
+    Negotiated platform contract covering core-banking and card-issuer
+    processing access, environments (sandbox + production), and support.
+    Contact Pismo / Visa sales.
+  entries:
+  - label: Platform / Setup Fee
+    name: platform_fee
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  - label: Active Accounts
+    name: active_accounts
+    type: usage
+    metric: accounts
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: negotiated per active account
+    userMultiplied: false
+  - label: Active Cards
+    name: active_cards
+    type: usage
+    metric: cards
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: negotiated per active card
+    userMultiplied: false
+  - label: Authorizations / Transactions
+    name: transactions
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: negotiated per authorization / transaction
+    userMultiplied: false
+  - label: Platform Events
+    name: events
+    type: usage
+    metric: events
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: negotiated per event volume
+    userMultiplied: false
+  elements:
+  - name: Accounts
+  - name: Customers
+  - name: Cards
+  - name: Authorizations
+  - name: Transactions and Statements
+  - name: Programs
+  - name: Events
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

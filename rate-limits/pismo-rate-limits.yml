@@ -1,0 +1,66 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Pismo
+providerId: pismo
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Banking
+- Card Issuing
+- Payments
+- Fintech
+- Core Banking
+- Cloud Native
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Pismo is a cloud-native, horizontally-scaled platform. Public documentation
+  describes OAuth2 access tokens that expire after one hour (3600 seconds) and
+  account-specific tokens for account-scoped calls, but does not publish
+  specific per-endpoint request-per-second or per-minute quotas. Throughput,
+  burst, and concurrency limits are governed by the client's commercial
+  agreement and environment (sandbox vs. production). Specific values are not
+  reconciled in this artifact.
+notes: >-
+  Token TTL (3600s) is documented; numeric request/throughput limits are not
+  published publicly. Verify per-environment quotas with Pismo / Visa during
+  onboarding. Standard HTTP 429 is assumed for throttling.
+sources:
+- https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2
+- https://developers.pismo.io
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Second (RPS)
+  scope: client
+  metric: requests
+  limit: see provider documentation
+  notes: Per-environment throughput governed by commercial agreement; not publicly published.
+- name: Concurrency
+  scope: client
+  metric: concurrent_requests
+  limit: see provider documentation
+  notes: Concurrent request ceilings vary by environment and contract.
+- name: Access Token TTL
+  scope: client
+  metric: seconds
+  limit: '3600'
+  notes: OAuth2 client-credentials access tokens expire after one hour and cannot be renewed; request a new token.
+- name: Account Token
+  scope: account
+  metric: tokens
+  limit: account-scoped
+  notes: Account-specific endpoints require an access token encoded with a Pismo account ID.
+policies:
+- name: Token Expiry
+  description: Access tokens are valid for 3600 seconds; clients must request a fresh token on expiry.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Environment Separation
+  description: Sandbox (sandbox.pismolabs.io) and production (api.pismo.io) enforce separate limits and credentials.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

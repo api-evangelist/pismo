@@ -1,0 +1,104 @@
+aid: pismo
+name: Pismo
+review:
+  question: Does Pismo expose a documented public streaming API (WebSocket / SSE) that clients subscribe to directly?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Pismo's public developer surface is a
+    synchronous REST API under https://api.pismo.io. Pismo does emit a rich
+    event stream, but that stream is Kafka-backed internally and delivered to
+    clients via outbound push - client-registered webhooks and managed
+    fan-out to cloud event buses (AWS SNS / EventBridge, Azure, GCP) or batch
+    file delivery (SFTP, S3). There is no documented public WebSocket (wss://)
+    or HTTP Server-Sent Events (SSE) endpoint that a client application
+    subscribes to directly. Per current API Evangelist scope, AsyncAPI is
+    modeled for documented WebSocket or HTTP/SSE subscribe surfaces; Pismo's
+    webhook/event-bus delivery is push-to-sink and is documented in apis.yml
+    as the Pismo Events API (REST webhook registration) rather than modeled as
+    AsyncAPI.
+findings:
+  summary: |
+    Pismo is a cloud-native issuer-processing and core-banking platform
+    (Visa-owned since January 2024). Its public API is REST/HTTPS under
+    https://api.pismo.io (sandbox: https://sandbox.pismolabs.io), secured with
+    OAuth2 client-credentials Bearer tokens; account-scoped endpoints
+    additionally require an account-specific token that encodes a Pismo
+    account ID. The platform is event-driven internally (Kafka) and surfaces
+    events to clients through outbound delivery, not a client-facing
+    subscribe-style streaming API.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.pismo.io
+      documented: true
+    - protocol: OAuth2
+      scheme: https
+      note: Client-credentials token endpoint POST /passport/v2/oauth/token; access tokens expire after 3600 seconds.
+      documented: true
+    - protocol: Webhooks
+      scheme: https
+      note: Client-registered HTTPS webhooks receive events pushed from Pismo's Kafka-backed event stream. Outbound push, not a client-subscribed stream.
+      documented: true
+    - protocol: EventBus
+      scheme: cloud
+      note: Managed real-time delivery to AWS SNS / EventBridge, Azure, GCP, plus batch file delivery via SFTP / S3.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in the Pismo developer portal as of the review date.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No documented HTTP Server-Sent Events subscribe endpoint.
+  endpointsConfirmedRest:
+    - POST   https://api.pismo.io/accounts/v1/accounts
+    - GET    https://api.pismo.io/accounts/v1/accounts/{accountId}
+    - PATCH  https://api.pismo.io/accounts/v1/accounts/{accountId}
+    - PATCH  https://api.pismo.io/accounts/v1/accounts/{accountId}/status
+    - PATCH  https://api.pismo.io/accounts/v1/accounts/{accountId}/entity
+    - GET    https://api.pismo.io/accounts/v1/account-balances
+    - POST   https://api.pismo.io/customers/v1/customers
+    - GET    https://api.pismo.io/customers/v1/customers/{customerId}
+    - POST   https://api.pismo.io/wallet/v2/cards
+    - GET    https://api.pismo.io/wallet/v1/cards/{cardId}
+    - GET    https://api.pismo.io/wallet/v1/customers/{customerId}/accounts/{accountId}/cards
+    - GET    https://api.pismo.io/accounts/v1/accounts/{accountId}/authorizations
+    - GET    https://api.pismo.io/accounts/v1/accounts/{accountId}/authorizations/{authorizationId}
+    - POST   https://api.pismo.io/authorizations/v1/simulate-authorizations
+    - GET    https://api.pismo.io/transactions/v1/transactions/{transactionId}
+    - GET    https://api.pismo.io/statements/v1/accounts/{accountId}/next
+    - GET    https://api.pismo.io/statements/v1/accounts/{accountId}/statements/{statementId}
+    - GET    https://api.pismo.io/accounts/v2/accounts/{accountId}/statements/{statementId}/transactions
+    - POST   https://api.pismo.io/programs/v1/programs
+    - GET    https://api.pismo.io/programs/v1/programs/{programId}
+    - POST   https://api.pismo.io/webhooks/v1/webhooks
+    - GET    https://api.pismo.io/webhooks/v1/webhooks
+sources:
+  - url: https://developers.pismo.io
+    type: Documentation
+    note: Developer portal; REST guides and reference. Index of pages/OpenAPI at /llms.txt.
+  - url: https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2
+    type: Documentation
+    note: OAuth2 client-credentials; token endpoint /passport/v2/oauth/token; 3600s token TTL.
+  - url: https://developers.pismo.io/pismo-docs/reference/endpoints-that-require-an-account-specific-token
+    type: APIReference
+    note: Account-scoped endpoints require an account-specific token encoding the account ID.
+  - url: https://developers.pismo.io/pismo-docs/docs/client-webhooks
+    type: Documentation
+    note: Client webhooks and real-time / batch event delivery; events originate from a Kafka-backed stream, delivered via push.
+  - url: https://www.pismo.io/news/visa-completes-acquisition-of-pismo/
+    type: Press
+    note: Visa completed acquisition of Pismo on 16 January 2024 (~US$1B all-cash).
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    Pismo's public interface is REST. Events are delivered via outbound
+    webhooks and managed cloud-event-bus / batch fan-out rather than a
+    client-subscribed WebSocket or SSE stream, so no AsyncAPI document was
+    authored. The event surface is represented as the Pismo Events API
+    (REST webhook registration) in apis.yml, with transport documented here.
