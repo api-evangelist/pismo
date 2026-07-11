@@ -1,0 +1,31 @@
+generated: '2026-07-11'
+method: searched
+source: openapi/pismo-openapi.yml
+docs: https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2
+note: Pismo uses OAuth 2.0 client-credentials tokens with permission-group scopes
+  of the form pismo-v1:<resource>:<access>; only three example scopes are publicly
+  documented, and the complete list of API permission groups is only viewable by
+  customers inside Control Center per
+  https://developers.pismo.io/pismo-docs/docs/cc-api-permission-groups.
+schemes:
+- name: oauth2
+  source: openapi/pismo-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+scopes:
+- scope: pismo-v1:accounts:rw
+  description: Read-write access to the accounts group of endpoints; documented as
+    an example permission-group scope in the OAuth2 authentication guide.
+  sources:
+  - https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2
+- scope: pismo-v1:cards:rw
+  description: Read-write access to the cards group of endpoints; documented as an
+    example permission-group scope in the OAuth2 authentication guide.
+  sources:
+  - https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2
+- scope: pismo-v1:bankaccounts:rw
+  description: Read-write access to the bank accounts group of endpoints; documented
+    as an example permission-group scope in the OAuth2 authentication guide.
+  sources:
+  - https://developers.pismo.io/pismo-docs/docs/authentication-with-oauth2

@@ -181,6 +181,10 @@ apis:
     Kafka-backed event stream - register client webhooks and configure real-time
     delivery (AWS SNS / EventBridge, Azure, GCP) or batch file delivery (SFTP, S3).
 common:
+- type: Authentication
+  url: authentication/pismo-authentication.yml
+- type: OAuthScopes
+  url: scopes/pismo-scopes.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/pismo
 - type: Website
@@ -193,6 +197,8 @@ common:
   url: rate-limits/pismo-rate-limits.yml
 - type: FinOps
   url: finops/pismo-finops.yml
+- url: https://www.pismo.io/blog/
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
