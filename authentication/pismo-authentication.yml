@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/pismo-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: 'OAuth2 client-credentials access token obtained from POST /passport/v2/oauth/token.
+    Pass as `Authorization: Bearer <token>`. Account-scoped endpoints require an account-specific
+    token encoded with a Pismo account ID.'
+  sources:
+  - openapi/pismo-openapi.yml
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+    scopes: 0
+  sources:
+  - openapi/pismo-openapi.yml

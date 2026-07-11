@@ -181,6 +181,10 @@ apis:
     Kafka-backed event stream - register client webhooks and configure real-time
     delivery (AWS SNS / EventBridge, Azure, GCP) or batch file delivery (SFTP, S3).
 common:
+- type: VulnerabilityDisclosure
+  url: security/pismo-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/pismo-domain-security.yml
 - type: Authentication
   url: authentication/pismo-authentication.yml
 - type: OAuthScopes
