@@ -181,6 +181,8 @@ apis:
     Kafka-backed event stream - register client webhooks and configure real-time
     delivery (AWS SNS / EventBridge, Azure, GCP) or batch file delivery (SFTP, S3).
 common:
+- type: AgenticAccess
+  url: agentic-access/pismo-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/pismo-vulnerability-disclosure.yml
 - type: DomainSecurity
