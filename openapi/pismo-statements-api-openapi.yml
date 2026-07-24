@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  title: Pismo Accounts Statements API
+  description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
+  termsOfService: https://www.pismo.io
+  contact:
+    name: Pismo Developer Support
+    url: https://developers.pismo.io
+  version: '1.0'
+servers:
+- url: https://api.pismo.io
+  description: Production
+- url: https://sandbox.pismolabs.io
+  description: Sandbox
+security:
+- bearerAuth: []
+tags:
+- name: Statements
+  description: Account statements and statement transactions.
+paths:
+  /statements/v1/accounts/{accountId}/next:
+    get:
+      operationId: getCurrentStatement
+      tags:
+      - Statements
+      summary: Get current statement
+      description: Returns the open (next) statement for the account. Requires an account-specific token.
+      parameters:
+      - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Current statement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statement'
+  /statements/v1/accounts/{accountId}/statements/{statementId}:
+    get:
+      operationId: getStatement
+      tags:
+      - Statements
+      summary: Get statement
+      parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/StatementId'
+      responses:
+        '200':
+          description: Statement found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statement'
+  /accounts/v2/accounts/{accountId}/statements/{statementId}/transactions:
+    get:
+      operationId: getStatementTransactions
+      tags:
+      - Statements
+      summary: Get statement transactions
+      parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/StatementId'
+      responses:
+        '200':
+          description: Transactions in the statement.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        soft_descriptor:
+          type: string
+        event_date:
+          type: string
+          format: date-time
+    Statement:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account_id:
+          type: integer
+          format: int64
+        status:
+          type: string
+        due_date:
+          type: string
+          format: date
+        close_date:
+          type: string
+          format: date
+        total_balance:
+          type: number
+          format: double
+        minimum_payment:
+          type: number
+          format: double
+  parameters:
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    StatementId:
+      name: statementId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth2 client-credentials access token obtained from POST /passport/v2/oauth/token. Pass as `Authorization: Bearer <token>`. Account-scoped endpoints require an account-specific token encoded with a Pismo account ID.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+          scopes: {}

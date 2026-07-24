@@ -1,0 +1,150 @@
+openapi: 3.0.1
+info:
+  title: Pismo Accounts Authorizations API
+  description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
+  termsOfService: https://www.pismo.io
+  contact:
+    name: Pismo Developer Support
+    url: https://developers.pismo.io
+  version: '1.0'
+servers:
+- url: https://api.pismo.io
+  description: Production
+- url: https://sandbox.pismolabs.io
+  description: Sandbox
+security:
+- bearerAuth: []
+tags:
+- name: Authorizations
+  description: Card-network authorizations and simulation.
+paths:
+  /accounts/v1/accounts/{accountId}/authorizations:
+    get:
+      operationId: listAccountAuthorizations
+      tags:
+      - Authorizations
+      summary: List account authorizations
+      description: Requires an account-specific token (an access token encoded with the Pismo account ID).
+      parameters:
+      - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: List of authorizations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Authorization'
+  /accounts/v1/accounts/{accountId}/authorizations/{authorizationId}:
+    get:
+      operationId: getAccountAuthorization
+      tags:
+      - Authorizations
+      summary: Get account authorization
+      parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - name: authorizationId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Authorization found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+  /authorizations/v1/simulate-authorizations:
+    post:
+      operationId: simulateAuthorization
+      tags:
+      - Authorizations
+      summary: Simulate authorization
+      description: Walk through authorization scenarios against a sandbox account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulateAuthorizationRequest'
+      responses:
+        '200':
+          description: Simulation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+components:
+  schemas:
+    Authorization:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - APPROVED
+          - DENIED
+          - REVERSED
+        merchant_name:
+          type: string
+        mcc:
+          type: string
+        event_date:
+          type: string
+          format: date-time
+    SimulateAuthorizationRequest:
+      type: object
+      required:
+      - account_id
+      - amount
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        mcc:
+          type: string
+        merchant_name:
+          type: string
+  parameters:
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth2 client-credentials access token obtained from POST /passport/v2/oauth/token. Pass as `Authorization: Bearer <token>`. Account-scoped endpoints require an account-specific token encoded with a Pismo account ID.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+          scopes: {}

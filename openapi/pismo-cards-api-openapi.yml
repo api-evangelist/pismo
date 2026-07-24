@@ -1,0 +1,171 @@
+openapi: 3.0.1
+info:
+  title: Pismo Accounts Cards API
+  description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
+  termsOfService: https://www.pismo.io
+  contact:
+    name: Pismo Developer Support
+    url: https://developers.pismo.io
+  version: '1.0'
+servers:
+- url: https://api.pismo.io
+  description: Production
+- url: https://sandbox.pismolabs.io
+  description: Sandbox
+security:
+- bearerAuth: []
+tags:
+- name: Cards
+  description: Card issuing and lifecycle.
+paths:
+  /wallet/v2/cards:
+    post:
+      operationId: createCard
+      tags:
+      - Cards
+      summary: Create card
+      description: Issues a physical or virtual card for an account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardRequest'
+      responses:
+        '201':
+          description: Card created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+  /wallet/v1/cards/{cardId}:
+    get:
+      operationId: getCard
+      tags:
+      - Cards
+      summary: Get card
+      parameters:
+      - $ref: '#/components/parameters/CardId'
+      responses:
+        '200':
+          description: Card found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wallet/v1/customers/{customerId}/accounts/{accountId}/cards:
+    get:
+      operationId: listCardsForCustomerAccount
+      tags:
+      - Cards
+      summary: List cards for customer and account
+      parameters:
+      - $ref: '#/components/parameters/CustomerId'
+      - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: List of cards.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+components:
+  parameters:
+    CardId:
+      name: cardId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CustomerId:
+      name: customerId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        status:
+          type: string
+        printed_name:
+          type: string
+        last_four_digits:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+    CreateCardRequest:
+      type: object
+      required:
+      - account_id
+      - type
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        customer_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+          - PHYSICAL
+          - VIRTUAL
+        printed_name:
+          type: string
+        program_id:
+          type: integer
+          format: int64
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth2 client-credentials access token obtained from POST /passport/v2/oauth/token. Pass as `Authorization: Bearer <token>`. Account-scoped endpoints require an account-specific token encoded with a Pismo account ID.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.pismo.io/passport/v2/oauth/token
+          scopes: {}
