@@ -1,0 +1,28 @@
+{
+  "provider": "pismo",
+  "sources": [
+    "pismo-accounts-api-openapi.yml",
+    "pismo-authorizations-api-openapi.yml",
+    "pismo-cards-api-openapi.yml",
+    "pismo-customers-api-openapi.yml",
+    "pismo-events-api-openapi.yml",
+    "pismo-programs-api-openapi.yml",
+    "pismo-statements-api-openapi.yml",
+    "pismo-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "pismo-accounts-api-openapi.yml",
+    "pismo-authorizations-api-openapi.yml",
+    "pismo-cards-api-openapi.yml",
+    "pismo-customers-api-openapi.yml",
+    "pismo-events-api-openapi.yml",
+    "pismo-programs-api-openapi.yml",
+    "pismo-statements-api-openapi.yml",
+    "pismo-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
