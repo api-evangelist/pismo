@@ -1,0 +1,223 @@
+{
+  "item": [
+    {
+      "id": "e52202ad-cafc-4437-b2fc-90dfa07b7eb2",
+      "name": "Events",
+      "description": {
+        "content": "Client webhook registration for the Pismo event stream.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b1f2452f-e8f2-419f-bd14-63e49023c6c4",
+          "name": "Register client webhook",
+          "request": {
+            "name": "Register client webhook",
+            "description": {
+              "content": "Registers a client webhook endpoint to receive events from the Pismo Kafka-backed event stream.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "webhooks",
+                "v1",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<uri>\",\n  \"event_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "efeab401-d6db-4a34-83f1-8eb2ba129018",
+              "name": "Webhook registered.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "webhooks",
+                    "v1",
+                    "webhooks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"event_types\": [\n    \"account-created\",\n    \"authorization-event\",\n    \"statement-closed\"\n  ],\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"url\": \"http://o.ihfSOege-yvbB6a35F3xi\",\n  \"event_types\": [\n    \"string\",\n    \"string\"\n  ],\n  \"status\": \"string\",\n  \"created_at\": \"1951-03-16T06:19:02.092Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5cb25b12-d042-47e6-ae27-b844197c2acc",
+          "name": "List client webhooks",
+          "request": {
+            "name": "List client webhooks",
+            "description": {},
+            "url": {
+              "path": [
+                "webhooks",
+                "v1",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "31d23ea1-c76d-4a1b-bd5e-05ed310d1bc4",
+              "name": "List of webhooks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "webhooks",
+                    "v1",
+                    "webhooks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"url\": \"https://IVaiyoD.otiakcL,sYLuHv8\",\n    \"event_types\": [\n      \"string\",\n      \"string\"\n    ],\n    \"status\": \"string\",\n    \"created_at\": \"2014-10-10T18:01:52.553Z\"\n  },\n  {\n    \"id\": \"string\",\n    \"url\": \"https://TaPkBSIWQNjBZG.kbrfXM9xOqP3c1QI08eFALpFfp6HvphL263zjJ\",\n    \"event_types\": [\n      \"string\",\n      \"string\"\n    ],\n    \"status\": \"string\",\n    \"created_at\": \"1974-05-05T09:38:12.025Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pismo.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b85f3a15-12b4-4701-9481-e1ca99b0f23e",
+    "name": "Pismo Accounts Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.\n\nContact Support:\n Name: Pismo Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

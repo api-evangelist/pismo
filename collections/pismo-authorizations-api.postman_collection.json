@@ -1,0 +1,361 @@
+{
+  "item": [
+    {
+      "id": "f31cba1f-44bd-4f6a-8213-33019d424b0e",
+      "name": "Authorizations",
+      "description": {
+        "content": "Card-network authorizations and simulation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d81b5418-5e1f-4ae7-84e0-2a522a299267",
+          "name": "List account authorizations",
+          "request": {
+            "name": "List account authorizations",
+            "description": {
+              "content": "Requires an account-specific token (an access token encoded with the Pismo account ID).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "v1",
+                "accounts",
+                ":accountId",
+                "authorizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "accountId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9de3debf-047f-4e31-ab01-e2c741561c19",
+              "name": "List of authorizations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "v1",
+                    "accounts",
+                    ":accountId",
+                    "authorizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "accountId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"account_id\": 8743,\n    \"card_id\": 9788,\n    \"amount\": 2407.053150156817,\n    \"currency\": \"string\",\n    \"status\": \"REVERSED\",\n    \"merchant_name\": \"string\",\n    \"mcc\": \"string\",\n    \"event_date\": \"2006-12-19T15:06:22.807Z\"\n  },\n  {\n    \"id\": \"string\",\n    \"account_id\": 6724,\n    \"card_id\": 2853,\n    \"amount\": 6080.7738022473,\n    \"currency\": \"string\",\n    \"status\": \"REVERSED\",\n    \"merchant_name\": \"string\",\n    \"mcc\": \"string\",\n    \"event_date\": \"1987-08-29T21:59:35.858Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37fbf656-28bf-4cfb-a195-fe8b6bfae960",
+          "name": "Get account authorization",
+          "request": {
+            "name": "Get account authorization",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                "v1",
+                "accounts",
+                ":accountId",
+                "authorizations",
+                ":authorizationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "accountId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "authorizationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0af8d7c5-4ad0-4bdf-a12f-b006bf2d7a0e",
+              "name": "Authorization found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "v1",
+                    "accounts",
+                    ":accountId",
+                    "authorizations",
+                    ":authorizationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "accountId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "authorizationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"account_id\": 8056,\n  \"card_id\": 5940,\n  \"amount\": 7966.3219935307025,\n  \"currency\": \"string\",\n  \"status\": \"DENIED\",\n  \"merchant_name\": \"string\",\n  \"mcc\": \"string\",\n  \"event_date\": \"1987-02-04T11:46:31.299Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aae52653-a40f-4170-b31a-67141b8db179",
+          "name": "Simulate authorization",
+          "request": {
+            "name": "Simulate authorization",
+            "description": {
+              "content": "Walk through authorization scenarios against a sandbox account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authorizations",
+                "v1",
+                "simulate-authorizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"<long>\",\n  \"amount\": \"<double>\",\n  \"card_id\": \"<long>\",\n  \"currency\": \"<string>\",\n  \"mcc\": \"<string>\",\n  \"merchant_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ab80eba1-c976-4516-a655-6754f1b6e549",
+              "name": "Simulation result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations",
+                    "v1",
+                    "simulate-authorizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account_id\": \"<long>\",\n  \"amount\": \"<double>\",\n  \"card_id\": \"<long>\",\n  \"currency\": \"<string>\",\n  \"mcc\": \"<string>\",\n  \"merchant_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"account_id\": 8056,\n  \"card_id\": 5940,\n  \"amount\": 7966.3219935307025,\n  \"currency\": \"string\",\n  \"status\": \"DENIED\",\n  \"merchant_name\": \"string\",\n  \"mcc\": \"string\",\n  \"event_date\": \"1987-02-04T11:46:31.299Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pismo.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "429708a2-68ea-4648-9753-8b97513cce16",
+    "name": "Pismo Accounts Authorizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.\n\nContact Support:\n Name: Pismo Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

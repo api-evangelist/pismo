@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pismo Accounts Statements API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/statements/v1/accounts/:accountId/next",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the open (next) statement for the account. Requires an account-specific token."
+        },
+        {
+          "info": {
+            "name": "Get statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/statements/v1/accounts/:accountId/statements/:statementId",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "statementId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get statement"
+        },
+        {
+          "info": {
+            "name": "Get statement transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/accounts/v2/accounts/:accountId/statements/:statementId/transactions",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "statementId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get statement transactions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

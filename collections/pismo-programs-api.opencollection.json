@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pismo Accounts Programs API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Programs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create program",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pismo.io/programs/v1/programs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create program"
+        },
+        {
+          "info": {
+            "name": "Get program",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/programs/v1/programs/:programId",
+            "params": [
+              {
+                "name": "programId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get program"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

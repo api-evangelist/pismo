@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pismo Accounts Authorizations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authorizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List account authorizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/accounts/v1/accounts/:accountId/authorizations",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Requires an account-specific token (an access token encoded with the Pismo account ID)."
+        },
+        {
+          "info": {
+            "name": "Get account authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pismo.io/accounts/v1/accounts/:accountId/authorizations/:authorizationId",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "authorizationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get account authorization"
+        },
+        {
+          "info": {
+            "name": "Simulate authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pismo.io/authorizations/v1/simulate-authorizations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Walk through authorization scenarios against a sandbox account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
