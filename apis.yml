@@ -27,6 +27,13 @@ tags:
 - Payments
 - Fintech
 - Core Banking
+- Cloud-Native
+tags_raw:
+- Banking
+- Card Issuing
+- Payments
+- Fintech
+- Core Banking
 - Cloud Native
 created: '2026-06-21'
 modified: '2026-06-21'
@@ -38,6 +45,8 @@ apis:
   humanURL: https://developers.pismo.io/pismo-docs/reference
   baseURL: https://api.pismo.io
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -158,6 +167,8 @@ apis:
   humanURL: https://developers.pismo.io/pismo-docs/reference
   baseURL: https://api.pismo.io
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -248,6 +259,8 @@ apis:
   humanURL: https://developers.pismo.io/pismo-docs/reference
   baseURL: https://api.pismo.io
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
