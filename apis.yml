@@ -298,6 +298,9 @@ apis:
   - type: Documentation
     url: https://developers.pismo.io/pismo-docs/docs/client-webhooks
 common:
+- type: CapabilityMap
+  url: capabilities/pismo-capability-edges.yml
+  name: Pismo Business Capability Map
 - type: AgenticAccess
   url: agentic-access/pismo-agentic-access.yml
 - type: VulnerabilityDisclosure
