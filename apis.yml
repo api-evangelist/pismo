@@ -7,6 +7,18 @@ description: Pismo is a cloud-native issuer-processing and core-banking platform
   and programs, plus an event stream (Kafka-backed, delivered via webhooks and cloud
   event buses). Acquired by Visa in January 2024, Pismo powers card issuing and
   digital banking for financial institutions across the Americas, Europe, and APAC.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
