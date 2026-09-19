@@ -89,6 +89,8 @@ apis:
   humanURL: https://developers.pismo.io/pismo-docs/reference
   baseURL: https://api.pismo.io
   tags:
+  - Authorization
+  tags_raw:
   - Authorizations
   properties:
   - type: OpenAPI
