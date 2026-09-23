@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Pismo Accounts Events API
+  title: Pismo Events API
   description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
   termsOfService: https://www.pismo.io
   contact:

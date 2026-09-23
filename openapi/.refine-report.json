@@ -1,14 +1,7 @@
 {
   "provider": "pismo",
   "sources": [
-    "pismo-accounts-api-openapi.yml",
-    "pismo-authorizations-api-openapi.yml",
-    "pismo-cards-api-openapi.yml",
-    "pismo-customers-api-openapi.yml",
-    "pismo-events-api-openapi.yml",
-    "pismo-programs-api-openapi.yml",
-    "pismo-statements-api-openapi.yml",
-    "pismo-transactions-api-openapi.yml"
+    "_original/pismo-openapi.yml"
   ],
   "outputs": [
     "pismo-accounts-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "pismo-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "pismo-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-authorizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-cards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-programs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-statements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pismo-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

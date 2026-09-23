@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Pismo Accounts Transactions API
+  title: Pismo Transactions API
   description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
   termsOfService: https://www.pismo.io
   contact:
@@ -41,6 +41,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
     Transaction:
       type: object
       properties:
@@ -63,17 +74,6 @@ components:
         event_date:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
   responses:
     NotFound:
       description: Resource not found.

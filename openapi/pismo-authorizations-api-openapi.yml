@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Pismo Accounts Authorizations API
+  title: Pismo Authorizations API
   description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
   termsOfService: https://www.pismo.io
   contact:
@@ -78,6 +78,27 @@ paths:
                 $ref: '#/components/schemas/Authorization'
 components:
   schemas:
+    SimulateAuthorizationRequest:
+      type: object
+      required:
+      - account_id
+      - amount
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        mcc:
+          type: string
+        merchant_name:
+          type: string
     Authorization:
       type: object
       properties:
@@ -107,27 +128,6 @@ components:
         event_date:
           type: string
           format: date-time
-    SimulateAuthorizationRequest:
-      type: object
-      required:
-      - account_id
-      - amount
-      properties:
-        account_id:
-          type: integer
-          format: int64
-        card_id:
-          type: integer
-          format: int64
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-        mcc:
-          type: string
-        merchant_name:
-          type: string
   parameters:
     AccountId:
       name: accountId

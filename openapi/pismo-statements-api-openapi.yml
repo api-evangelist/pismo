@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Pismo Accounts Statements API
+  title: Pismo Statements API
   description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
   termsOfService: https://www.pismo.io
   contact:
@@ -70,28 +70,6 @@ paths:
                   $ref: '#/components/schemas/Transaction'
 components:
   schemas:
-    Transaction:
-      type: object
-      properties:
-        id:
-          type: string
-        account_id:
-          type: integer
-          format: int64
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-        type:
-          type: string
-        description:
-          type: string
-        soft_descriptor:
-          type: string
-        event_date:
-          type: string
-          format: date-time
     Statement:
       type: object
       properties:
@@ -115,16 +93,38 @@ components:
         minimum_payment:
           type: number
           format: double
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        soft_descriptor:
+          type: string
+        event_date:
+          type: string
+          format: date-time
   parameters:
-    AccountId:
-      name: accountId
+    StatementId:
+      name: statementId
       in: path
       required: true
       schema:
         type: integer
         format: int64
-    StatementId:
-      name: statementId
+    AccountId:
+      name: accountId
       in: path
       required: true
       schema:

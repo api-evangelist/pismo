@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Pismo Accounts API
   description: Specification of the Pismo cloud-native issuer-processing and core-banking platform API. Covers accounts, customers, cards, authorizations, transactions and statements, programs, and event/webhook configuration. Pismo is a Visa-owned platform (acquired January 2024). Authentication uses OAuth2 client-credentials to obtain a Bearer access token; account-scoped endpoints additionally require an account-specific token that encodes a Pismo account ID.
@@ -140,19 +140,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountBalance'
 components:
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     AccountStatusUpdate:
       type: object
@@ -167,31 +154,6 @@ components:
           - CANCELLED
           - CLOSED
         reason:
-          type: string
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
-    AccountBalance:
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int64
-        available_amount:
-          type: number
-          format: double
-        current_amount:
-          type: number
-          format: double
-        currency:
           type: string
     CreateAccountRequest:
       type: object
@@ -210,6 +172,26 @@ components:
         currency:
           type: string
           example: USD
+    UpdateAccountRequest:
+      type: object
+      properties:
+        program_id:
+          type: integer
+          format: int64
+        metadata:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
     Account:
       type: object
       properties:
@@ -229,15 +211,33 @@ components:
         created_at:
           type: string
           format: date-time
-    UpdateAccountRequest:
+    AccountBalance:
       type: object
       properties:
-        program_id:
+        account_id:
           type: integer
           format: int64
-        metadata:
-          type: object
-          additionalProperties: true
+        available_amount:
+          type: number
+          format: double
+        current_amount:
+          type: number
+          format: double
+        currency:
+          type: string
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     AccountId:
       name: accountId
