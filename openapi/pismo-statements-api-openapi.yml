@@ -70,6 +70,28 @@ paths:
                   $ref: '#/components/schemas/Transaction'
 components:
   schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        soft_descriptor:
+          type: string
+        event_date:
+          type: string
+          format: date-time
     Statement:
       type: object
       properties:
@@ -93,28 +115,6 @@ components:
         minimum_payment:
           type: number
           format: double
-    Transaction:
-      type: object
-      properties:
-        id:
-          type: string
-        account_id:
-          type: integer
-          format: int64
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-        type:
-          type: string
-        description:
-          type: string
-        soft_descriptor:
-          type: string
-        event_date:
-          type: string
-          format: date-time
   parameters:
     StatementId:
       name: statementId

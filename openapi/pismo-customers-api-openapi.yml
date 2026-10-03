@@ -56,27 +56,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    CreateCustomerRequest:
-      type: object
-      required:
-      - name
-      - document_number
-      properties:
-        name:
-          type: string
-        document_number:
-          type: string
-        type:
-          type: string
-          enum:
-          - PERSON
-          - LEGAL_ENTITY
-        birth_date:
-          type: string
-          format: date
-        email:
-          type: string
-          format: email
     Error:
       type: object
       properties:
@@ -105,6 +84,27 @@ components:
         created_at:
           type: string
           format: date-time
+    CreateCustomerRequest:
+      type: object
+      required:
+      - name
+      - document_number
+      properties:
+        name:
+          type: string
+        document_number:
+          type: string
+        type:
+          type: string
+          enum:
+          - PERSON
+          - LEGAL_ENTITY
+        birth_date:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
   responses:
     NotFound:
       description: Resource not found.

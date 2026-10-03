@@ -75,6 +75,17 @@ paths:
                   $ref: '#/components/schemas/Card'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
     CreateCardRequest:
       type: object
       required:
@@ -117,25 +128,7 @@ components:
         created_at:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
   parameters:
-    CardId:
-      name: cardId
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
     AccountId:
       name: accountId
       in: path
@@ -145,6 +138,13 @@ components:
         format: int64
     CustomerId:
       name: customerId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CardId:
+      name: cardId
       in: path
       required: true
       schema:
