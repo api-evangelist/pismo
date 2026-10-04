@@ -78,27 +78,6 @@ paths:
                 $ref: '#/components/schemas/Authorization'
 components:
   schemas:
-    SimulateAuthorizationRequest:
-      type: object
-      required:
-      - account_id
-      - amount
-      properties:
-        account_id:
-          type: integer
-          format: int64
-        card_id:
-          type: integer
-          format: int64
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-        mcc:
-          type: string
-        merchant_name:
-          type: string
     Authorization:
       type: object
       properties:
@@ -128,6 +107,27 @@ components:
         event_date:
           type: string
           format: date-time
+    SimulateAuthorizationRequest:
+      type: object
+      required:
+      - account_id
+      - amount
+      properties:
+        account_id:
+          type: integer
+          format: int64
+        card_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        mcc:
+          type: string
+        merchant_name:
+          type: string
   parameters:
     AccountId:
       name: accountId

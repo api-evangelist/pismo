@@ -140,18 +140,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountBalance'
 components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
     AccountBalance:
       type: object
       properties:
@@ -166,6 +168,43 @@ components:
           format: double
         currency:
           type: string
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+    CreateAccountRequest:
+      type: object
+      required:
+      - customer_id
+      - program_id
+      properties:
+        customer_id:
+          type: integer
+          format: int64
+        program_id:
+          type: integer
+          format: int64
+        processing_code:
+          type: string
+        currency:
+          type: string
+          example: USD
+    UpdateAccountRequest:
+      type: object
+      properties:
+        program_id:
+          type: integer
+          format: int64
+        metadata:
+          type: object
+          additionalProperties: true
     AccountStatusUpdate:
       type: object
       required:
@@ -180,15 +219,6 @@ components:
           - CLOSED
         reason:
           type: string
-    UpdateAccountRequest:
-      type: object
-      properties:
-        program_id:
-          type: integer
-          format: int64
-        metadata:
-          type: object
-          additionalProperties: true
     Account:
       type: object
       properties:
@@ -208,23 +238,6 @@ components:
         created_at:
           type: string
           format: date-time
-    CreateAccountRequest:
-      type: object
-      required:
-      - customer_id
-      - program_id
-      properties:
-        customer_id:
-          type: integer
-          format: int64
-        program_id:
-          type: integer
-          format: int64
-        processing_code:
-          type: string
-        currency:
-          type: string
-          example: USD
   parameters:
     AccountId:
       name: accountId
@@ -233,19 +246,6 @@ components:
       schema:
         type: integer
         format: int64
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

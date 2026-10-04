@@ -74,7 +74,34 @@ paths:
                 items:
                   $ref: '#/components/schemas/Card'
 components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        status:
+          type: string
+        printed_name:
+          type: string
+        last_four_digits:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -108,36 +135,16 @@ components:
         program_id:
           type: integer
           format: int64
-    Card:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        account_id:
-          type: integer
-          format: int64
-        type:
-          type: string
-        status:
-          type: string
-        printed_name:
-          type: string
-        last_four_digits:
-          type: string
-        created_at:
-          type: string
-          format: date-time
   parameters:
-    AccountId:
-      name: accountId
+    CustomerId:
+      name: customerId
       in: path
       required: true
       schema:
         type: integer
         format: int64
-    CustomerId:
-      name: customerId
+    AccountId:
+      name: accountId
       in: path
       required: true
       schema:
@@ -150,13 +157,6 @@ components:
       schema:
         type: integer
         format: int64
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

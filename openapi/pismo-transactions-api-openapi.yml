@@ -41,6 +41,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
     Transaction:
       type: object
       properties:
@@ -63,17 +74,6 @@ components:
         event_date:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
   responses:
     NotFound:
       description: Resource not found.

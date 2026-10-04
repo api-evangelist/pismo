@@ -54,6 +54,23 @@ paths:
                   $ref: '#/components/schemas/Webhook'
 components:
   schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        event_types:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     CreateWebhookRequest:
       type: object
       required:
@@ -73,23 +90,6 @@ components:
           - statement-closed
         description:
           type: string
-    Webhook:
-      type: object
-      properties:
-        id:
-          type: string
-        url:
-          type: string
-          format: uri
-        event_types:
-          type: array
-          items:
-            type: string
-        status:
-          type: string
-        created_at:
-          type: string
-          format: date-time
   securitySchemes:
     bearerAuth:
       type: http
